@@ -1,6 +1,7 @@
 package com.nahide.librarymanagement.services;
 
 import com.nahide.librarymanagement.exception.RecordNotFoundException;
+import com.nahide.librarymanagement.models.Genre;
 import com.nahide.librarymanagement.models.Publisher;
 import com.nahide.librarymanagement.repositories.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,13 @@ public class PublisherService {
         } else {
             throw new RecordNotFoundException("No publisher record exist for given id");
         }
+    }
+
+
+    public Publisher getPublisherById(Long id)
+    {
+        Optional<Publisher> publisher = publisherRepository.findById(id);
+
+        return publisher.get();
     }
 }

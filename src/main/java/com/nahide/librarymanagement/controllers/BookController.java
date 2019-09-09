@@ -7,8 +7,10 @@ import com.nahide.librarymanagement.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -59,6 +61,25 @@ public class BookController {
             throws RecordNotFoundException
     {
         bookService.deleteBookById(id);
+        return "redirect:/books";
+    }
+
+
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        Book book = bookService.getBookById(id);
+        model.addAttribute("book",book);
+        return "book/update-book";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateBook(@PathVariable("id") Long id, @Valid Book book, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            book.setId(id);
+            return "book/update-book";
+        }
+        bookService.saveBook(book);
+        model.addAttribute("books", book);
         return "redirect:/books";
     }
 

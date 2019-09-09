@@ -30,16 +30,16 @@ public class GenreService {
     }
 
 
-    public void deleteGenreById(Long id) throws RecordNotFoundException
+    public void deleteGenreById(Long id)
+    {
+            genreRepository.deleteById(id);
+    }
+
+    public Genre getGenreById(Long id)
     {
         Optional<Genre> genre = genreRepository.findById(id);
 
-        if(genre.isPresent())
-        {
-            genreRepository.deleteById(id);
-        } else {
-            throw new RecordNotFoundException("No genre record exist for given id");
-        }
+            return genre.get();
     }
 
 }

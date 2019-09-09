@@ -2,14 +2,15 @@ package com.nahide.librarymanagement.controllers;
 
 import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Publisher;
+import com.nahide.librarymanagement.models.Publisher;
 import com.nahide.librarymanagement.services.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -48,6 +49,25 @@ public class PublisherController {
             throws RecordNotFoundException
     {
         publisherService.deletePublisherById(id);
+        return "redirect:/publishers";
+    }
+
+
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        Publisher publisher = publisherService.getPublisherById(id);
+        model.addAttribute("publisher",publisher);
+        return "publisher/update-publisher";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateBook(@PathVariable("id") Long id, @Valid Publisher publisher, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            publisher.setId(id);
+            return "publisher/update-publisher";
+        }
+        publisherService.savePublisher(publisher);
+        model.addAttribute("publishers", publisher);
         return "redirect:/publishers";
     }
 }

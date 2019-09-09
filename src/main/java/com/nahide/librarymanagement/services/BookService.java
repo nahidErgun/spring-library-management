@@ -2,6 +2,7 @@ package com.nahide.librarymanagement.services;
 
 import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Book;
+import com.nahide.librarymanagement.models.Genre;
 import com.nahide.librarymanagement.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,4 +43,12 @@ public class BookService {
             throw new RecordNotFoundException("No book record exist for given id");
         }
     }
+
+    public Book getBookById(Long id)
+    {
+        Optional<Book> book = bookRepository.findById(id);
+
+        return book.get();
+    }
+
 }

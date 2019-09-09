@@ -2,21 +2,24 @@ package com.nahide.librarymanagement.controllers;
 
 import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Genre;
+import com.nahide.librarymanagement.repositories.GenreRepository;
 import com.nahide.librarymanagement.services.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/genres")
 public class GenreController {
     @Autowired
     GenreService genreService;
+    GenreRepository genreRepository;
 
     @RequestMapping
     public String getGenreList(Model model) {
@@ -43,10 +46,28 @@ public class GenreController {
 
     @RequestMapping(path = "/delete/{id}")
     public String deleteGenreById(Model model, @PathVariable("id") Long id)
-            throws RecordNotFoundException
     {
         genreService.deleteGenreById(id);
         return "redirect:/genres";
     }
 
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        Genre genre = genreService.getGenreById(id);
+        System.out.println("Genre " + genre);
+        model.addAttribute("genre",genre);
+        return "genre/update-genre";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateUser(@PathVariable("id") Long id, @Valid Genre genre, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            genre.setId(id);
+            return "genre/update-genre";
+        }
+        System.out.println("Genre12 " + genre);
+        genreService.saveGenre(genre);
+        model.addAttribute("genres", genre);
+        return "redirect:/genres";
+    }
 }
