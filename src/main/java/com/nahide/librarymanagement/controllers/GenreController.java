@@ -1,10 +1,8 @@
 package com.nahide.librarymanagement.controllers;
 
-import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Genre;
 import com.nahide.librarymanagement.repositories.GenreRepository;
 import com.nahide.librarymanagement.services.GenreService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,14 +10,18 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/genres")
 public class GenreController {
-    @Autowired
-    GenreService genreService;
-    GenreRepository genreRepository;
+
+    private final GenreService genreService;
+    private final GenreRepository genreRepository;
+
+    public GenreController(GenreService genreService, GenreRepository genreRepository) {
+        this.genreService = genreService;
+        this.genreRepository = genreRepository;
+    }
 
     @RequestMapping
     public String getGenreList(Model model) {

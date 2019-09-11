@@ -2,9 +2,7 @@ package com.nahide.librarymanagement.services;
 
 import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Book;
-import com.nahide.librarymanagement.models.Genre;
 import com.nahide.librarymanagement.repositories.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,8 +11,11 @@ import java.util.Optional;
 
 @Service
 public class BookService {
-    @Autowired
-    BookRepository bookRepository;
+    private final BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public List<Book> selectAll() {
         List<Book> books = (List<Book>) bookRepository.findAll();

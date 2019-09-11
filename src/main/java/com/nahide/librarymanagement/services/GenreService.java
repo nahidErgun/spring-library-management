@@ -1,9 +1,7 @@
 package com.nahide.librarymanagement.services;
 
-import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Genre;
 import com.nahide.librarymanagement.repositories.GenreRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,8 +10,12 @@ import java.util.Optional;
 
 @Service
 public class GenreService {
-    @Autowired
-    GenreRepository genreRepository;
+
+    private final GenreRepository genreRepository;
+
+    public GenreService(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
+    }
 
     public List<Genre> selectAll() {
         List<Genre> genres = (List<Genre>) genreRepository.findAll();

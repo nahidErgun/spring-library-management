@@ -1,10 +1,8 @@
 package com.nahide.librarymanagement.services;
 
 import com.nahide.librarymanagement.exception.RecordNotFoundException;
-import com.nahide.librarymanagement.models.Genre;
 import com.nahide.librarymanagement.models.Publisher;
 import com.nahide.librarymanagement.repositories.PublisherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,8 +11,12 @@ import java.util.Optional;
 
 @Service
 public class PublisherService {
-    @Autowired
-    PublisherRepository publisherRepository;
+
+    private final PublisherRepository publisherRepository;
+
+    public PublisherService(PublisherRepository publisherRepository) {
+        this.publisherRepository = publisherRepository;
+    }
 
     public List<Publisher> selectAll() {
         List<Publisher> publishers = (List<Publisher>) publisherRepository.findAll();

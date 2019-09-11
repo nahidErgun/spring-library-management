@@ -4,7 +4,6 @@ import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Book;
 import com.nahide.librarymanagement.repositories.BookRepository;
 import com.nahide.librarymanagement.services.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +15,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/books")
 public class BookController {
-    @Autowired
-    BookService bookService;
-    BookRepository bookRepository;
+    private final BookService bookService;
+    private final BookRepository bookRepository;
+
+    public BookController(BookService bookService, BookRepository bookRepository) {
+        this.bookService = bookService;
+        this.bookRepository = bookRepository;
+    }
 
     @RequestMapping
     public String getBookList(Model model) {

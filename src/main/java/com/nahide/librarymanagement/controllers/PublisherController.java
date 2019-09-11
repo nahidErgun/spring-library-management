@@ -2,9 +2,7 @@ package com.nahide.librarymanagement.controllers;
 
 import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Publisher;
-import com.nahide.librarymanagement.models.Publisher;
 import com.nahide.librarymanagement.services.PublisherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,8 +14,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/publishers")
 public class PublisherController {
-    @Autowired
-    PublisherService publisherService;
+
+    private final PublisherService publisherService;
+
+    public PublisherController(PublisherService publisherService) {
+        this.publisherService = publisherService;
+    }
 
     @RequestMapping
     public String getPublisherList(Model model) {
