@@ -16,11 +16,9 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
-    private final BookRepository bookRepository;
 
-    public BookController(BookService bookService, BookRepository bookRepository) {
+    public BookController(BookService bookService) {
         this.bookService = bookService;
-        this.bookRepository = bookRepository;
     }
 
     @RequestMapping
@@ -40,7 +38,7 @@ public class BookController {
 
     @RequestMapping("/edit/{id}")
     public String editBook(Model model, Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        Book book =bookService.getBookById(id);
         model.addAttribute("book", book);
         return "edit-book";
     }
