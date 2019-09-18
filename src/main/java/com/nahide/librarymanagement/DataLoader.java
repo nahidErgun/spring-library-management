@@ -1,11 +1,7 @@
 package com.nahide.librarymanagement;
 
-import com.nahide.librarymanagement.models.Book;
-import com.nahide.librarymanagement.models.Genre;
-import com.nahide.librarymanagement.models.Publisher;
-import com.nahide.librarymanagement.repositories.BookRepository;
-import com.nahide.librarymanagement.repositories.GenreRepository;
-import com.nahide.librarymanagement.repositories.PublisherRepository;
+import com.nahide.librarymanagement.models.*;
+import com.nahide.librarymanagement.repositories.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -18,11 +14,15 @@ public class DataLoader implements ApplicationRunner {
     private final BookRepository bookRepository;
     private final GenreRepository genreRepository;
     private final PublisherRepository publisherRepository;
+    private final AuthorRepository authorRepository;
+    private final BorrowerRepository borrowerRepository;
 
-    public DataLoader(BookRepository bookRepository, GenreRepository genreRepository, PublisherRepository publisherRepository) {
+    public DataLoader(BookRepository bookRepository, GenreRepository genreRepository, PublisherRepository publisherRepository, AuthorRepository authorRepository, BorrowerRepository borrowerRepository) {
         this.bookRepository = bookRepository;
         this.genreRepository = genreRepository;
         this.publisherRepository = publisherRepository;
+        this.authorRepository = authorRepository;
+        this.borrowerRepository = borrowerRepository;
     }
 
     @Override
@@ -211,6 +211,67 @@ public class DataLoader implements ApplicationRunner {
                 "Yapı Kredi Yayınları"
         ));
         publishers.forEach(publisherRepository::save);
+
+     List<Author> authors = new ArrayList<>();
+     authors.add(new Author(
+             null,
+             "Orhan",
+             "Kemal",
+             "Asıl adı Mehmet Raşit Öğütçü olan yazar, 1943’te İkdam Gazetesi’nde yayınlanan öyküsüyle birlikte Orhan Kemal imzasını kullanmaya başlar. Bunun dışında Yıldız Okur, Hayrullah Güçlü ve Raşit Kemali gibi takma isimleri de kullanmıştır.",
+             "1943"
+     ));
+
+     authors.add(new Author(
+             null,
+             "Aziz",
+             "Nesin",
+             "Edebiyat tarihimiz boyunca en fazla takma isim kullanan yazar Aziz Nesin‘dir. Asıl adı Mehmet Nusret Nesin olan yazar, çeşitli dergi ve gazetelerde birbirinden farklı imzalar kullanarak metinler kaleme almıştır. Bu isimlerden bazıları Bahri Filefil, Berdi Birdirbir, Fettane Şatifil, Kerami Pestenkerani, Kerim Kihkih, Ord. Prof. Paf-Puf, Dr. Daim Değer, Oya Ateş, Vedia Nesin olarak bilinmektedi",
+             "1940"
+     ));
+
+     authors.add(new Author(
+             null,
+             "Kemal",
+             "Tahir",
+             "Yazar, ilk olarak Yedigün ve Karikatür dergilerinde takma isimle şiirler kaleme alır. Asıl adı Kemal Tahir Demir‘dir. Ardından polisiye romanlar ve mizah öyküleri yazmaya başlayan yazar, 1954 yılına kadar Kemal Tahir imzasını eserlerinde kullanamaz. Yazar, 1950’li yıllarda Körduman, Bedri Eser, Samim Aşkın, F. M. İkinci, Nurettin Demir, Ali Gıcırlı gibi imzalarla birlikte yazın hayatını sürdürür.",
+             "1930"
+     ));
+
+     authors.add(new Author(
+             null,
+             "Nazım Hikmet",
+             "Ran",
+             "Nazım Hikmet Ran, yasaklı olduğu yıllarda pek çok kez takma isim kullanarak yazılar kaleme almıştır. Bunlardan bazıları; Orhan Selim, Ahmet Oğuz Saruhan, Mümtaz Osman ve Ercüment Er olarak bilinir.",
+             "1930"
+     ));
+
+     authors.forEach(authorRepository::save);
+
+     List<Borrower> borrowers = new ArrayList<>();
+     borrowers.add(new Borrower(
+             null,
+             "nadis",
+             "Nahide",
+             "Ergün"
+     ));
+
+     borrowers.add(new Borrower(
+             null,
+             "mnkskyaz",
+             "Menekşe",
+             "İlkyaz"
+     ));
+
+     borrowers.add(new Borrower(
+             null,
+             "molcay",
+             "M. Olcay",
+             "Tercanlı"
+     ));
+
+     borrowers.forEach(borrowerRepository::save);
+
+
 
     }
 }

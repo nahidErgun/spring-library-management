@@ -2,7 +2,6 @@ package com.nahide.librarymanagement.controllers;
 
 import com.nahide.librarymanagement.exception.RecordNotFoundException;
 import com.nahide.librarymanagement.models.Book;
-import com.nahide.librarymanagement.repositories.BookRepository;
 import com.nahide.librarymanagement.services.BookService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
