@@ -16,12 +16,12 @@
         <div class="card-body">
             <div th:switch="${borrowers}" class="container my-5">
                 <div class="col-md-12">
-                    <p class="my-5">
+                    <p class="my-10">
                         <a href="/borrowers/add" class="btn btn-primary">
                             <i class="fas fa-user-plus ml-2"> Borrower Ekle </i></a>
                     </p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <h2 th:case="null">No record found !!</h2>
                     <div th:case="*">
                         <table class="table table-striped table-responsive-md">
@@ -29,6 +29,8 @@
                             <tr>
                                 <th>Kullanıcı Adı</th>
                                 <th>Ad & Soyad</th>
+                                <th>Create time</th>
+                                <th>Update time</th>
                                 <th>Düzenle</th>
                                 <th>Sil</th>
                             </tr>
@@ -37,6 +39,8 @@
                             <tr th:each="borrower : ${borrowers}">
                                 <td th:text="${borrower.userName}"></td>
                                 <td th:text="${borrower.firstName + ' ' + borrower.lastName}"></td>
+                                <td th:text="${borrower.createDateTime}"></td>
+                                <td th:text="${borrower.updateDateTime}"></td>
                                 <td><a th:href="@{/borrowers/edit/{id}(id=${borrower.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
                                 <td>
                                     <a th:href="@{/borrowers/delete/{id}(id=${borrower.id})}" class="btn btn-primary">

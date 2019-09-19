@@ -32,6 +32,8 @@
                                 <th>Yazarı</th>
                                 <th>Yayın Tarihi</th>
                                 <th>Yayın Evi</th>
+                                <th>Create time</th>
+                                <th>Update time</th>
                                 <th>Bilgi</th>
                                 <th>Sil</th>
                             </tr>
@@ -43,6 +45,8 @@
                                 <td th:text="${book.author}"></td>
                                 <td th:text="${book.publishDate}"></td>
                                 <td th:text="${book.publisher}"></td>
+                                <td th:text="${book.createDateTime}"></td>
+                                <td th:text="${book.updateDateTime}"></td>
                                 <td>
                                     <a th:href="@{/books/edit/{id}(id=${book.id})}"
                                        class="btn btn-primary">

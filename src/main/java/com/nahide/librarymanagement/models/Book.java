@@ -2,11 +2,14 @@ package com.nahide.librarymanagement.models;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name="BOOKS")
+@Table(name="book")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
@@ -23,7 +26,7 @@ public class Book {
     @Column(length = 100)
     private String author;
 
-    @Column(name="publish_date")
+    @Column(name="publishDate")
     private String publishDate;
 
     @Column(length = 100)
@@ -34,6 +37,39 @@ public class Book {
 
     @Column(length = 100)
     private String description;
+
+    @Column(name = "create_date_time", insertable = true, updatable = false)
+    private LocalDateTime createDateTime;
+
+    @Column(name = "update_date_time", insertable = false, updatable = true)
+    private LocalDateTime updateDateTime;
+
+   public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public LocalDateTime getUpdateDateTime() {
+        return updateDateTime;
+    }
+
+    public void setUpdateDateTime(LocalDateTime updateDateTime) {
+        this.updateDateTime = updateDateTime;
+    }
+
+    @PrePersist
+    void onCreate() {
+        this.setCreateDateTime(LocalDateTime.now());
+    }
+
+    @PreUpdate
+    void onPersist() {
+        this.setUpdateDateTime(LocalDateTime.now());
+    }
+
 
     public Long getId() {
         return id;

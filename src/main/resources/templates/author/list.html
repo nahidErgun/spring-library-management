@@ -16,7 +16,7 @@
         <div class="card-body">
             <div th:switch="${authors}" class="container my-5">
                 <div class="col-md-12">
-                    <p class="my-5">
+                    <p class="my-10">
                         <a href="/authors/add" class="btn btn-primary">
                             <i class="fas fa-user-plus ml-2"> Yazar Ekle </i></a>
                     </p>
@@ -30,6 +30,8 @@
                                 <th>Ad & Soyad</th>
                                 <th>Bio</th>
                                 <th>Doğum Tarihi</th>
+                                <th>Create time</th>
+                                <th>Update time</th>
                                 <th>Düzenle</th>
                                 <th>Sil</th>
                             </tr>
@@ -39,6 +41,8 @@
                                 <td th:text="${author.firstName + ' ' + author.lastName}"></td>
                                 <td th:text="${author.bio}"></td>
                                 <td th:text="${author.birthDate}"></td>
+                                <td th:text="${author.createDateTime}"></td>
+                                <td th:text="${author.updateDateTime}"></td>
                                 <td><a th:href="@{/authors/edit/{id}(id=${author.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
                                 <td>
                                     <a th:href="@{/authors/delete/{id}(id=${author.id})}" class="btn btn-primary">
