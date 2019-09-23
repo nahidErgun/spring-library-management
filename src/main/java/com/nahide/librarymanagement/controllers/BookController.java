@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -49,18 +50,20 @@ public class BookController {
     }
 
     @RequestMapping(path="/save", method = RequestMethod.POST)
-    public String saveBook(Model model, Book book) {
+    public String saveBook(Model model, Book book, RedirectAttributes redirectAttributes) {
         System.out.println("Incoming Book: " + book.toString());
         Book savedBook = bookService.saveBook(book);
         model.addAttribute("book", savedBook);
-        return "book/after-save";
+        redirectAttributes.addFlashAttribute("message", "Kitap eklendi.");
+        return "redirect:/books";
     }
 
     @RequestMapping(path = "/delete/{id}")
-    public String deleteBookById(Model model, @PathVariable("id") Long id)
+    public String deleteBookById(Model model, @PathVariable("id") Long id, RedirectAttributes redirectAttributes)
             throws RecordNotFoundException
     {
         bookService.deleteBookById(id);
+        redirectAttributes.addFlashAttribute("message", id + " id'li kitap silindi.");
         return "redirect:/books";
     }
 
@@ -73,15 +76,15 @@ public class BookController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateBook(@PathVariable("id") Long id, @Valid Book book, BindingResult result, Model model) {
+    public String updateBook(@PathVariable("id") Long id, @Valid Book book, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             book.setId(id);
             return "book/update-book";
         }
         bookService.saveBook(book);
         model.addAttribute("books", book);
-        return "redirect:/books";
-    }
+        redirectAttributes.addFlashAttribute("message", id + " id'li kitap güncellendi.");
+        return "redirect:/books";    }
 
 
 }

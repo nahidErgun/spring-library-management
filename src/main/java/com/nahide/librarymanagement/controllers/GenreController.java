@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -39,17 +40,19 @@ public class GenreController {
     }
 
     @RequestMapping(path="/save", method = RequestMethod.POST)
-    public String saveGenre(Model model, Genre genre) {
+    public String saveGenre(Model model, Genre genre, RedirectAttributes redirectAttributes) {
         System.out.println("Incoming Book: " + genre.toString());
         Genre savedGenre = genreService.saveGenre(genre);
         model.addAttribute("genre", savedGenre);
-        return "genre/genre-after-save";
+        redirectAttributes.addFlashAttribute("message", "Tür eklendi.");
+        return "redirect:/genres";
     }
 
     @RequestMapping(path = "/delete/{id}")
-    public String deleteGenreById(Model model, @PathVariable("id") Long id)
+    public String deleteGenreById(Model model, @PathVariable("id") Long id, RedirectAttributes redirectAttributes)
     {
         genreService.deleteGenreById(id);
+        redirectAttributes.addFlashAttribute("message", id +" id'li tür silindi.");
         return "redirect:/genres";
     }
 
@@ -62,7 +65,7 @@ public class GenreController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") Long id, @Valid Genre genre, BindingResult result, Model model) {
+    public String updateUser(@PathVariable("id") Long id, @Valid Genre genre, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             genre.setId(id);
             return "genre/update-genre";
@@ -70,6 +73,7 @@ public class GenreController {
         System.out.println("Genre12 " + genre);
         genreService.saveGenre(genre);
         model.addAttribute("genres", genre);
+        redirectAttributes.addFlashAttribute("message", id +" id'li tür güncellendi.");
         return "redirect:/genres";
     }
 }

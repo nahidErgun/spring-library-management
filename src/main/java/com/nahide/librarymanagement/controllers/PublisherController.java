@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,19 +39,21 @@ public class PublisherController {
 
 
     @RequestMapping(path="/save", method = RequestMethod.POST)
-    public String savePublisher(Model model, Publisher publisher) {
+    public String savePublisher(Model model, Publisher publisher, RedirectAttributes redirectAttributes) {
         System.out.println("Incoming Publisher : " + publisher.toString());
         Publisher savedPublisher = publisherService.savePublisher(publisher);
         model.addAttribute("publisher", savedPublisher);
-        return "publisher/publishers-after-save";
+        redirectAttributes.addFlashAttribute("message","Yayın evi eklendi.");
+        return "redirect:/publishers";
     }
 
 
     @RequestMapping(path = "/delete/{id}")
-    public String deleteEmployeeById(Model model, @PathVariable("id") Long id)
+    public String deleteEmployeeById(Model model, @PathVariable("id") Long id, RedirectAttributes redirectAttributes)
             throws RecordNotFoundException
     {
         publisherService.deletePublisherById(id);
+        redirectAttributes.addFlashAttribute("message",id + " id'li yayın evi silindi.");
         return "redirect:/publishers";
     }
 
@@ -63,13 +66,14 @@ public class PublisherController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateBook(@PathVariable("id") Long id, @Valid Publisher publisher, BindingResult result, Model model) {
+    public String updateBook(@PathVariable("id") Long id, @Valid Publisher publisher, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             publisher.setId(id);
             return "publisher/update-publisher";
         }
         publisherService.savePublisher(publisher);
         model.addAttribute("publishers", publisher);
+        redirectAttributes.addFlashAttribute("message",id + " id'li yayın evi güncellendi.");
         return "redirect:/publishers";
     }
 }

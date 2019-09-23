@@ -63,6 +63,7 @@ public class Book {
     @PrePersist
     void onCreate() {
         this.setCreateDateTime(LocalDateTime.now());
+        this.setUpdateDateTime(LocalDateTime.now());
     }
 
     @PreUpdate

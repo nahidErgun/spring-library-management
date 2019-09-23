@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
 </head>
 
 <body>
@@ -18,21 +19,29 @@
                 <div class="col-md-12">
                     <p class="my-10">
                         <a href="/borrowers/add" class="btn btn-primary">
-                            <i class="fas fa-user-plus ml-2"> Borrower Ekle </i></a>
+                            <i class="fas fa-plus ml-2"> Add Borrower </i></a>
                     </p>
                 </div>
                 <div class="col-md-10">
                     <h2 th:case="null">No record found !!</h2>
+                    <div th:if="${message}" id="alert" class="alert alert-success" role="alert">
+                        <p th:text="${message}">success message</p>
+                    </div>
+                    <script>
+                        setTimeout(()=>{
+                            document.getElementById("alert").style.display="none"
+                        },1000)
+                    </script>
                     <div th:case="*">
-                        <table class="table table-striped table-responsive-md">
+                        <table class="table table-striped table-responsive-md table-onelineHeader">
                             <thead>
                             <tr>
-                                <th>Kullanıcı Adı</th>
-                                <th>Ad & Soyad</th>
-                                <th>Create time</th>
-                                <th>Update time</th>
-                                <th>Düzenle</th>
-                                <th>Sil</th>
+                                <th>Username</th>
+                                <th>Name & Surname</th>
+                                <th>Create Time</th>
+                                <th>Update Time</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -41,10 +50,10 @@
                                 <td th:text="${borrower.firstName + ' ' + borrower.lastName}"></td>
                                 <td th:text="${borrower.createDateTime}"></td>
                                 <td th:text="${borrower.updateDateTime}"></td>
-                                <td><a th:href="@{/borrowers/edit/{id}(id=${borrower.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+                                <td><a th:href="@{/borrowers/edit/{id}(id=${borrower.id})}" class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a></td>
                                 <td>
                                     <a th:href="@{/borrowers/delete/{id}(id=${borrower.id})}" class="btn btn-primary">
-                                        <i class="fas fa-user-times ml-2"></i>
+                                        <i class="fas fa-times ml-2"></i>
                                     </a>
                                 </td>
                             </tr>

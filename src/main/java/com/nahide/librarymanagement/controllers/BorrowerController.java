@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,35 +35,36 @@ public class BorrowerController {
     }
 
     @RequestMapping(path="/save", method = RequestMethod.POST)
-    public String saveBorrower(Model model, Borrower borrower) {
+    public String saveBorrower(Model model, Borrower borrower, RedirectAttributes redirectAttributes) {
         System.out.println("Incoming Book: " + borrower.toString());
         Borrower savedBorrower = borrowerService.saveBorrower(borrower);
         model.addAttribute("borrower", savedBorrower);
-        return "borrower/borrower-after-save";
+        redirectAttributes.addFlashAttribute("message", "Ödünç alan kişi eklendi.");
+        return "redirect:/borrowers";
     }
 
     @RequestMapping(path = "/delete/{id}")
-    public String deleteBorrowerById(Model model, @PathVariable("id") Long id) throws RecordNotFoundException {
+    public String deleteBorrowerById(Model model, @PathVariable("id") Long id, RedirectAttributes redirectAttributes) throws RecordNotFoundException {
         borrowerService.deleteBorrowerById(id);
+        redirectAttributes.addFlashAttribute("message", id + "id'li ödünç alan kişi silindi.");
         return "redirect:/borrowers";
     }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Borrower borrower = borrowerService.getBorrowerById(id);
-        System.out.println("Borrower " + borrower);
         model.addAttribute("borrower",borrower);
         return "borrower/update-borrower";
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") Long id, @Valid Borrower borrower, BindingResult result, Model model) {
+    public String updateUser(@PathVariable("id") Long id, @Valid Borrower borrower, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             borrower.setId(id);
             return "borrower/update-borrower";
         }
         borrowerService.saveBorrower(borrower);
         model.addAttribute("borrowers", borrower);
-        return "redirect:/borrowers";
-    }
+        redirectAttributes.addFlashAttribute("message", id + "id'li ödünç alan kişi güncellendi.");
+        return "redirect:/borrowers";    }
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -33,35 +35,33 @@ public class AuthorController {
     }
 
     @RequestMapping(path="/save", method = RequestMethod.POST)
-    public String saveAuthor(Model model, Author author) {
-        System.out.println("Incoming Book: " + author.toString());
-        com.nahide.librarymanagement.models.Author savedAuthor = authorService.saveAuthor(author);
+    public String saveAuthor(Model model, Author author, RedirectAttributes redirectAttributes) {
+        Author savedAuthor = authorService.saveAuthor(author);
         model.addAttribute("author", savedAuthor);
-        return "author/author-after-save";
+        redirectAttributes.addFlashAttribute("message", "Yazar eklendi.");
+        return "redirect:/authors";
     }
 
     @RequestMapping(path = "/delete/{id}")
-    public String deleteAuthorById(Model model, @PathVariable("id") Long id) throws RecordNotFoundException {
+    public String deleteAuthorById(Model model, @PathVariable("id") Long id, RedirectAttributes redirectAttributes) throws RecordNotFoundException {
         authorService.deleteAuthorById(id);
+        redirectAttributes.addFlashAttribute("message", id + " id'li yazar silindi.");
         return "redirect:/authors";
     }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Author author = authorService.getAuthorById(id);
-        System.out.println("Author " + author);
         model.addAttribute("author",author);
         return "author/update-author";
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") Long id, @Valid Author author, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            author.setId(id);
-            return "author/update-author";
-        }
+    public String updateUser(@PathVariable("id") Long id, @Valid Author author, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+
         authorService.saveAuthor(author);
         model.addAttribute("authors", author);
+        redirectAttributes.addFlashAttribute("message", id + " id'li yazar güncellendi.");
         return "redirect:/authors";
     }
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Borrower Ekle</title>
+    <title>Add Borrower</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
@@ -27,15 +27,15 @@
                         <div class="form-group col-md-8">
                             <label for="firstName" class="col-form-label">Borrower Adı</label>
                             <input type="text" th:field="*{firstName}" class="form-control"
-                                   id="BorrowerFirstName" placeholder="Ad" />
+                                   id="BorrowerFirstName" placeholder="Name" />
                         </div>
                         <div class="form-group col-md-8">
                             <label for="lastName" class="col-form-label">Borrower Soyadı</label>
                             <input type="text" th:field="*{lastName}" class="form-control"
-                                   id="BorrowerLastName" placeholder="Soyad" />
+                                   id="BorrowerLastName" placeholder="Surname" />
                         </div>
                         <div class="col-md-6">
-                            <input type="submit" class="btn btn-primary" value=" Kaydet ">
+                            <input type="submit" class="btn btn-primary" value=" Save ">
                         </div>
 
                         <input type="hidden" id="id" th:field="*{id}">
