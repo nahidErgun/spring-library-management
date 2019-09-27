@@ -21,7 +21,7 @@ public class Genre {
     @Column(name = "create_date_time", insertable = true, updatable = false)
     private LocalDateTime createDateTime;
 
-    @Column(name = "update_date_time", insertable = false, updatable = true)
+    @Column(name = "update_date_time", insertable = true, updatable = true)
     private LocalDateTime updateDateTime;
 
     public LocalDateTime getCreateDateTime() {
@@ -43,6 +43,7 @@ public class Genre {
     @PrePersist
     void onCreate() {
         this.setCreateDateTime(LocalDateTime.now());
+        this.setUpdateDateTime(LocalDateTime.now());
     }
 
     @PreUpdate
